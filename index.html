@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fibra - Neumorphism Internet Solutions</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Neumorphism and Figma-inspired Color Palette */
+    :root {
+      --bg-color: #f0f0f3;
+      --card-bg: #f0f0f3;
+      --shadow-light: #ffffff;
+      --shadow-dark: #d1d9e6;
+      --text-color: #333;
+      --primary-color: #0ACF83;  /* Figma green */
+      --secondary-color: #a259ff; /* Figma purple */
+      --accent-color: #f24e1e;    /* Figma red */
+    }
+    .dark {
+      --bg-color: #1e1e1e;
+      --card-bg: #2c2c2c;
+      --shadow-light: #2c2c2c;
+      --shadow-dark: #121212;
+      --text-color: #e0e0e0;
+    }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Neumorphism Card & Button Effects */
+    .neumorphism {
+      background: var(--card-bg);
+      box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+      border-radius: 12px;
+    }
+    .neumo-button {
+      background: var(--card-bg);
+      box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+      border-radius: 50px;
+      transition: box-shadow 0.3s ease;
+    }
+    .neumo-button:active {
+      box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+    }
+    /* Hamburger Menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.active { display: block; }
+    /* Chatbox Transitions */
+    .chat-transition {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .chat-hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .chat-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    /* Animations */
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slideIn {
+      animation: slideIn 0.5s ease-out;
+    }
+  </style>
+</head>
+<body class="relative">
+  <!-- Hamburger Menu (Mobile) -->
+  <nav class="p-4 lg:hidden flex justify-between items-center neumorphism">
+    <!-- SVG Logo -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" class="w-40">
+      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">FIBRA</text>
+    </svg>
+    <div class="flex items-center space-x-2">
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle-mobile" class="p-2 neumo-button">
+        <i class="fas fa-adjust"></i>
+      </button>
+      <!-- Hamburger Icon -->
+      <button id="menu-toggle" class="text-2xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mt-4 space-y-2">
+      <a href="#home" class="block hover:text-[var(--secondary-color)]">Home</a>
+      <a href="#services" class="block hover:text-[var(--secondary-color)]">Services</a>
+      <a href="#packages" class="block hover:text-[var(--secondary-color)]">Packages</a>
+      <a href="#about" class="block hover:text-[var(--secondary-color)]">About Us</a>
+    </div>
+  </nav>
+
+  <!-- Desktop Menu -->
+  <nav class="hidden lg:flex justify-between items-center p-4 neumorphism mx-4 mt-4">
+    <!-- SVG Logo -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" class="w-40">
+      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">FIBRA</text>
+    </svg>
+    <div class="flex items-center space-x-6">
+      <a href="#home" class="hover:text-[var(--secondary-color)]">Home</a>
+      <a href="#services" class="hover:text-[var(--secondary-color)]">Services</a>
+      <a href="#packages" class="hover:text-[var(--secondary-color)]">Packages</a>
+      <a href="#about" class="hover:text-[var(--secondary-color)]">About Us</a>
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle-desktop" class="p-2 neumo-button">
+        <i class="fas fa-adjust"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="home" class="py-16 text-center neumorphism mx-4 my-8 animate-slideIn">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--secondary-color);">High-Speed Internet Services</h1>
+    <p class="text-lg md:text-xl">Dedicated & Residential Solutions</p>
+  </header>
+
+  <!-- Services Section -->
+  <section id="services" class="container mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Dedicated Service Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn">
+        <div class="flex justify-center items-center h-48 mb-4">
+          <i class="fas fa-server fa-6x" style="color: var(--primary-color);"></i>
+        </div>
+        <h3 class="text-2xl font-bold" style="color: var(--primary-color);">Dedicated Service</h3>
+        <p class="mt-2">24/7 enterprise-grade internet with 99.9% uptime.</p>
+      </div>
+      <!-- Residential Service Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn">
+        <div class="flex justify-center items-center h-48 mb-4">
+          <i class="fas fa-users fa-6x" style="color: var(--secondary-color);"></i>
+        </div>
+        <h3 class="text-2xl font-bold" style="color: var(--secondary-color);">Residential Service</h3>
+        <p class="mt-2">Affordable plans with free installation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section id="about" class="container mx-auto px-4 py-12">
+    <div class="neumorphism p-6 text-center animate-slideIn">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">About Us</h2>
+      <p class="text-lg mb-4">Reliable, High-Speed Internet for Homes & Businesses</p>
+      <p class="text-sm">
+        Fibra provides fast, reliable, and affordable internet with 99.9% uptime, free installation, and 24/7 customer support for seamless connectivity.
+      </p>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+        <div class="neumorphism p-6 text-center hover:scale-105 transition-transform">
+          <i class="fas fa-tachometer-alt fa-3x mb-4" style="color: var(--primary-color);"></i>
+          <h3 class="text-xl font-bold">Blazing-Fast Speeds</h3>
+          <p class="text-sm">Enjoy high-speed internet for streaming, gaming, and remote work seamlessly.</p>
+        </div>
+        <div class="neumorphism p-6 text-center hover:scale-105 transition-transform">
+          <i class="fas fa-wifi fa-3x mb-4" style="color: var(--secondary-color);"></i>
+          <h3 class="text-xl font-bold">Reliable Connectivity</h3>
+          <p class="text-sm">Experience 99.9% uptime with a stable and uninterrupted internet connection.</p>
+        </div>
+        <div class="neumorphism p-6 text-center hover:scale-105 transition-transform">
+          <i class="fas fa-wallet fa-3x mb-4" style="color: var(--accent-color);"></i>
+          <h3 class="text-xl font-bold">Affordable Plans</h3>
+          <p class="text-sm">Choose from budget-friendly packages designed to meet every user’s needs.</p>
+        </div>
+        <div class="neumorphism p-6 text-center hover:scale-105 transition-transform">
+          <i class="fas fa-headset fa-3x mb-4" style="color: var(--primary-color);"></i>
+          <h3 class="text-xl font-bold">24/7 Customer Support</h3>
+          <p class="text-sm">Our expert team is always available to assist you anytime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packages Section -->
+  <section id="packages" class="container mx-auto px-4 py-12">
+    <!-- Packages Header -->
+    <div class="neumorphism p-6 text-center mb-8 animate-slideIn">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Our Packages</h2>
+      <p class="text-lg mb-4">Affordable Internet Plans for Every Need</p>
+      <p class="text-sm">
+        Choose from our affordable internet plans designed for homes and businesses. Enjoy high-speed connectivity, 99.9% uptime, free installation, and 24/7 support for a seamless online experience.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Basic Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #0ACF83;">
+        <h4 class="text-xl font-bold">Basic Plan</h4>
+        <p class="mt-2">Rs 1000/month</p>
+        <ul class="text-sm mt-2">
+          <li>Basic internet speed</li>
+          <li>7Mbps Suitable for small browsing households</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Basic%20Plan%20(7Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--secondary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Standard Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #a259ff;">
+        <h4 class="text-xl font-bold">Standard Plan</h4>
+        <p class="mt-2">Rs 1500/month</p>
+        <ul class="text-sm mt-2">
+          <li>17Mbps Improved speed</li>
+          <li>Ideal for small offices</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Standard%20Plan%20(17Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--primary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Premium Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #f24e1e;">
+        <h4 class="text-xl font-bold">Premium Plan</h4>
+        <p class="mt-2">Rs 2000/month</p>
+        <ul class="text-sm mt-2">
+          <li>25Mbps High-speed connection</li>
+          <li>For streaming & gaming</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Premium%20Plan%20(25Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--secondary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Pro Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #6b5b95;">
+        <h4 class="text-xl font-bold">Pro Plan</h4>
+        <p class="mt-2">Rs 2700/month</p>
+        <ul class="text-sm mt-2">
+          <li>32Mbps Premium speeds</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Pro%20Plan%20(32Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--primary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Business Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #ff6f61;">
+        <h4 class="text-xl font-bold">Business Plan</h4>
+        <p class="mt-2">Rs 3500/month</p>
+        <ul class="text-sm mt-2">
+          <li>40Mbps Enterprise-grade connectivity</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Business%20Plan%20(40Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--secondary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Ultimate Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #0ACF83;">
+        <h4 class="text-xl font-bold">Ultimate Plan</h4>
+        <p class="mt-2">Rs 5000/month</p>
+        <ul class="text-sm mt-2">
+          <li>50Mbps Ultra high-speed internet</li>
+          <li>All premium features</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Ultimate%20Plan%20(50Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--primary-color); color: white;">Contact Now</a>
+      </div>
+      <!-- Platinum Plan Card -->
+      <div class="neumorphism p-6 text-center hover:scale-105 transition-transform animate-slideIn" style="border-top: 4px solid #a259ff;">
+        <h4 class="text-xl font-bold">Platinum Plan</h4>
+        <p class="mt-2">Rs 6500/month</p>
+        <ul class="text-sm mt-2">
+          <li>70Mbps Highest priority connectivity</li>
+          <li>Dedicated line & support</li>
+        </ul>
+        <a href="https://wa.me/923030333698?text=Hi,%20I%20am%20interested%20in%20the%20Platinum%20Plan%20(70Mbps)." class="mt-4 px-4 py-2 neumo-button block" style="background: var(--secondary-color); color: white;">Contact Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section id="faqs" class="container mx-auto px-4 py-12">
+    <div class="neumorphism p-6 text-center animate-slideIn">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">FAQs</h2>
+      <div class="text-left space-y-4">
+        <!-- FAQ 1 -->
+        <div class="neumorphism p-4 hover:scale-105 transition-transform">
+          <h3 class="font-bold">What is Fibra Internet?</h3>
+          <p class="text-sm mt-2">Fibra Internet is a high-speed fiber-optic internet service designed for homes and businesses, offering reliable and fast connectivity.</p>
+        </div>
+        <!-- FAQ 2 -->
+        <div class="neumorphism p-4 hover:scale-105 transition-transform">
+          <h3 class="font-bold">How do I change my Wi-Fi password?</h3>
+          <p class="text-sm mt-2">
+            1. Open your router's admin panel (usually 192.168.1.1 or 192.168.0.1).<br>
+            2. Log in with your admin credentials.<br>
+            3. Go to the Wireless or Security settings.<br>
+            4. Change the Wi-Fi password and save the settings.
+          </p>
+        </div>
+        <!-- FAQ 3 -->
+        <div class="neumorphism p-4 hover:scale-105 transition-transform">
+          <h3 class="font-bold">What should I do if my internet is slow?</h3>
+          <p class="text-sm mt-2">
+            - Restart your router.<br>
+            - Check for any ongoing outages in your area.<br>
+            - Contact our support team for assistance.
+          </p>
+        </div>
+        <!-- FAQ 4 -->
+        <div class="neumorphism p-4 hover:scale-105 transition-transform">
+          <h3 class="font-bold">How do I upgrade my plan?</h3>
+          <p class="text-sm mt-2">Contact us via WhatsApp or call our support team to upgrade your plan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-2 neumorphism mt-5">
+    <p class="text-sm">Copyright © 2025 | All rights reserved Fibra</p>
+  </footer>
+
+  <!-- WhatsApp Button (Moved to Left) -->
+  <a href="https://wa.me/923030333698" class="fixed bottom-5 left-5 z-40 neumo-button p-1">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" class="w-10 h-10 rounded-full">
+  </a>
+
+  <!-- AI Chatbot Floating Button and Chat Section (Moved to Right) -->
+  <div class="fixed bottom-5 right-5 z-40">
+    <!-- Floating Chat Toggle Button -->
+    <button id="chat-toggle" class="w-12 h-12 rounded-full neumo-button flex items-center justify-center text-xl">
+      <i class="fas fa-comment-dots"></i>
+    </button>
+    <!-- Chatbox -->
+    <div id="chatbox" class="chatbox chat-transition chat-hidden absolute right-0 bottom-20">
+      <div class="neumorphism w-80 h-96 rounded-xl shadow-xl p-4">
+        <div class="text-center font-bold mb-4" style="color: var(--secondary-color);">Fibra AI</div>
+        <div id="messages" class="h-60 overflow-y-auto mb-4 space-y-2 border border-gray-300 rounded p-2"></div>
+        <div class="flex space-x-2">
+          <input type="text" id="userInput" placeholder="Ask about plans..." class="w-full border rounded-lg p-2">
+          <button id="send-btn" class="px-4 rounded-lg neumo-button" onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('mobile-menu').classList.toggle('active');
+    });
+
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      // Save preference in localStorage
+      if (document.body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    document.getElementById('theme-toggle-mobile').addEventListener('click', toggleTheme);
+    document.getElementById('theme-toggle-desktop').addEventListener('click', toggleTheme);
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+    }
+
+    // Chatbot Functionality
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const question = input.value.trim();
+      if (question === '') return;
+
+      const messagesContainer = document.getElementById('messages');
+      messagesContainer.innerHTML += `
+        <div class="bg-gray-100 p-2 rounded-lg"><strong>You:</strong> ${question}</div>
+      `;
+
+      let answer = "Please contact us via WhatsApp for immediate help!";
+      if (question.toLowerCase().includes("change wifi password")) {
+        answer = `
+          To change your Wi-Fi password:
+          1. Open your router's admin panel (usually 192.168.1.1 or 192.168.0.1).
+          2. Log in with your admin credentials.
+          3. Go to the Wireless or Security settings.
+          4. Change the Wi-Fi password and save the settings.
+        `;
+      } else if (question.toLowerCase().includes("change router settings")) {
+        answer = `
+          To change router settings:
+          1. Access the router's admin panel (192.168.1.1 or 192.168.0.1).
+          2. Log in with your admin credentials.
+          3. Navigate to the desired settings (e.g., Wireless, Security, etc.).
+          4. Make the necessary changes and save.
+        `;
+      } else if (question.toLowerCase().includes("add user id password on huawei router")) {
+        answer = `
+          To add a user ID/password on a Huawei router:
+          1. Access the router's admin panel (192.168.1.1 or 192.168.0.1).
+          2. Log in with your admin credentials.
+          3. Go to the User Management or Security settings.
+          4. Add a new user ID and password, then save.
+        `;
+      } else if (question.toLowerCase().includes("choose plan for gaming")) {
+        answer = `
+          For gaming, we recommend the **Premium Plan (25Mbps)** or higher for low latency and smooth gameplay.
+        `;
+      } else if (question.toLowerCase().includes("choose plan for social media")) {
+        answer = `
+          For social media browsing, the **Basic Plan (7Mbps)** or **Standard Plan (17Mbps)** is sufficient.
+        `;
+      }
+
+      messagesContainer.innerHTML += `
+        <div class="bg-purple-100 p-2 rounded-lg"><strong>AI:</strong> ${answer}</div>
+      `;
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      input.value = '';
+    }
+
+    // Chatbox Toggle
+    document.getElementById('chat-toggle').addEventListener('click', function(event) {
+      event.stopPropagation();
+      const chatbox = document.getElementById('chatbox');
+      if (chatbox.classList.contains('chat-hidden')) {
+        chatbox.classList.remove('chat-hidden');
+        chatbox.classList.add('chat-visible');
+      } else {
+        chatbox.classList.remove('chat-visible');
+        chatbox.classList.add('chat-hidden');
+      }
+    });
+    // Close Chatbox when clicking outside
+    document.addEventListener('click', function(event) {
+      const chatbox = document.getElementById('chatbox');
+      const toggleBtn = document.getElementById('chat-toggle');
+      if (!chatbox.contains(event.target) && !toggleBtn.contains(event.target)) {
+        chatbox.classList.remove('chat-visible');
+        chatbox.classList.add('chat-hidden');
+      }
+    });
+  </script>
+</body>
+</html>
