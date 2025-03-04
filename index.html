@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fibra - Neumorphism Internet Solutions</title>
+  <title>Dhabejinet - Neumorphism Internet Solutions</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -19,6 +19,14 @@
       --primary-color: #0ACF83;  /* Figma green */
       --secondary-color: #a259ff; /* Figma purple */
       --accent-color: #f24e1e;    /* Figma red */
+      --pink-color: #FF6F61;      /* Pink */
+      --yellow-color: #FFD700;    /* Yellow */
+      --apple-green: #8BC34A;     /* Apple Green */
+      --purple-color: #6A1B9A;    /* Purple */
+      --violet-color: #8E24AA;    /* Violet */
+      --red-color: #FF5252;       /* Red */
+      --blue-color: #2196F3;      /* Blue */
+      --skyblue-color: #87CEEB;   /* Sky Blue */
     }
     .dark {
       --bg-color: #1e1e1e;
@@ -77,7 +85,7 @@
   <nav class="p-4 lg:hidden flex justify-between items-center neumorphism">
     <!-- SVG Logo -->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" class="w-40">
-      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">FIBRA</text>
+      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">Dhabejinet</text>
     </svg>
     <div class="flex items-center space-x-2">
       <!-- Theme Toggle Button -->
@@ -94,6 +102,8 @@
       <a href="#services" class="block hover:text-[var(--secondary-color)]">Services</a>
       <a href="#packages" class="block hover:text-[var(--secondary-color)]">Packages</a>
       <a href="#about" class="block hover:text-[var(--secondary-color)]">About Us</a>
+      <!-- Admin Login Option -->
+      <a href="#admin-login" class="block hover:text-[var(--secondary-color)]">Admin Login</a>
     </div>
   </nav>
 
@@ -101,13 +111,15 @@
   <nav class="hidden lg:flex justify-between items-center p-4 neumorphism mx-4 mt-4">
     <!-- SVG Logo -->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" class="w-40">
-      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">FIBRA</text>
+      <text x="0" y="30" font-family="Arial, sans-serif" font-size="24" fill="var(--primary-color)" font-weight="bold">Dhabejinet</text>
     </svg>
     <div class="flex items-center space-x-6">
       <a href="#home" class="hover:text-[var(--secondary-color)]">Home</a>
       <a href="#services" class="hover:text-[var(--secondary-color)]">Services</a>
       <a href="#packages" class="hover:text-[var(--secondary-color)]">Packages</a>
       <a href="#about" class="hover:text-[var(--secondary-color)]">About Us</a>
+      <!-- Admin Login Option -->
+      <a href="#admin-login" class="hover:text-[var(--secondary-color)]">Admin Login</a>
       <!-- Theme Toggle Button -->
       <button id="theme-toggle-desktop" class="p-2 neumo-button">
         <i class="fas fa-adjust"></i>
@@ -115,11 +127,79 @@
     </div>
   </nav>
 
+  <!-- Admin Login Modal -->
+  <div id="admin-login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="neumorphism p-6 w-96">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Admin Login</h2>
+      <form id="admin-login-form">
+        <div class="mb-4">
+          <label for="username" class="block text-sm font-medium mb-2">Username</label>
+          <input type="text" id="username" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium mb-2">Password</label>
+          <input type="password" id="password" class="w-full p-2 border rounded-lg" required>
+        </div>
+        <button type="submit" class="w-full px-4 py-2 neumo-button" style="background: var(--primary-color); color: white;">Login</button>
+      </form>
+      <p class="text-sm mt-4">Forgot password? <a href="#reset-password" class="text-[var(--secondary-color)]">Reset here</a></p>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard (Hidden by Default) -->
+  <div id="admin-dashboard" class="hidden">
+    <div class="container mx-auto px-4 py-12">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Admin Dashboard</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Add Product Form -->
+        <div class="neumorphism p-6">
+          <h3 class="text-xl font-bold mb-4">Add Product</h3>
+          <form id="add-product-form">
+            <div class="mb-4">
+              <label for="product-name" class="block text-sm font-medium mb-2">Product Name</label>
+              <input type="text" id="product-name" class="w-full p-2 border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+              <label for="product-price" class="block text-sm font-medium mb-2">Price</label>
+              <input type="number" id="product-price" class="w-full p-2 border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+              <label for="product-description" class="block text-sm font-medium mb-2">Description</label>
+              <textarea id="product-description" class="w-full p-2 border rounded-lg" required></textarea>
+            </div>
+            <div class="mb-4">
+              <label for="product-image" class="block text-sm font-medium mb-2">Product Image</label>
+              <input type="file" id="product-image" class="w-full p-2 border rounded-lg" accept="image/*">
+            </div>
+            <button type="submit" class="w-full px-4 py-2 neumo-button" style="background: var(--primary-color); color: white;">Add Product</button>
+          </form>
+        </div>
+        <!-- Product List -->
+        <div class="neumorphism p-6">
+          <h3 class="text-xl font-bold mb-4">Products</h3>
+          <div id="product-list" class="space-y-4">
+            <!-- Products will be dynamically added here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Hero Section -->
   <header id="home" class="py-16 text-center neumorphism mx-4 my-8 animate-slideIn">
     <h1 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--secondary-color);">High-Speed Internet Services</h1>
     <p class="text-lg md:text-xl">Dedicated & Residential Solutions</p>
   </header>
+
+  <!-- Home Page Products Section -->
+  <section id="home-products" class="container mx-auto px-4 py-12">
+    <div class="neumorphism p-6 text-center animate-slideIn">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Our Products</h2>
+      <div id="product-list-home" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Products will be dynamically added here -->
+      </div>
+    </div>
+  </section>
 
   <!-- Services Section -->
   <section id="services" class="container mx-auto px-4 py-12">
@@ -149,7 +229,7 @@
       <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">About Us</h2>
       <p class="text-lg mb-4">Reliable, High-Speed Internet for Homes & Businesses</p>
       <p class="text-sm">
-        Fibra provides fast, reliable, and affordable internet with 99.9% uptime, free installation, and 24/7 customer support for seamless connectivity.
+        Dhabejinet provides fast, reliable, and affordable internet with 99.9% uptime, free installation, and 24/7 customer support for seamless connectivity.
       </p>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
         <div class="neumorphism p-6 text-center hover:scale-105 transition-transform">
@@ -266,8 +346,8 @@
       <div class="text-left space-y-4">
         <!-- FAQ 1 -->
         <div class="neumorphism p-4 hover:scale-105 transition-transform">
-          <h3 class="font-bold">What is Fibra Internet?</h3>
-          <p class="text-sm mt-2">Fibra Internet is a high-speed fiber-optic internet service designed for homes and businesses, offering reliable and fast connectivity.</p>
+          <h3 class="font-bold">What is Dhabejinet Internet?</h3>
+          <p class="text-sm mt-2">Dhabejinet Internet is a high-speed fiber-optic internet service designed for homes and businesses, offering reliable and fast connectivity.</p>
         </div>
         <!-- FAQ 2 -->
         <div class="neumorphism p-4 hover:scale-105 transition-transform">
@@ -293,13 +373,22 @@
           <h3 class="font-bold">How do I upgrade my plan?</h3>
           <p class="text-sm mt-2">Contact us via WhatsApp or call our support team to upgrade your plan.</p>
         </div>
+        <!-- FAQ 5 -->
+        <div class="neumorphism p-4 hover:scale-105 transition-transform">
+          <h3 class="font-bold">How do I check my data usage?</h3>
+          <p class="text-sm mt-2">
+            - Log in to your account on our website.<br>
+            - Navigate to the "Usage" section.<br>
+            - You will see your data usage details there.
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="text-center py-2 neumorphism mt-5">
-    <p class="text-sm">Copyright © 2025 | All rights reserved Fibra</p>
+    <p class="text-sm">Copyright © 2025 | All rights reserved Dhabejinet</p>
   </footer>
 
   <!-- WhatsApp Button (Moved to Left) -->
@@ -316,7 +405,7 @@
     <!-- Chatbox -->
     <div id="chatbox" class="chatbox chat-transition chat-hidden absolute right-0 bottom-20">
       <div class="neumorphism w-80 h-96 rounded-xl shadow-xl p-4">
-        <div class="text-center font-bold mb-4" style="color: var(--secondary-color);">Fibra AI</div>
+        <div class="text-center font-bold mb-4" style="color: var(--secondary-color);">Dhabejinet AI</div>
         <div id="messages" class="h-60 overflow-y-auto mb-4 space-y-2 border border-gray-300 rounded p-2"></div>
         <div class="flex space-x-2">
           <input type="text" id="userInput" placeholder="Ask about plans..." class="w-full border rounded-lg p-2">
@@ -349,6 +438,107 @@
       document.body.classList.add('dark');
     }
 
+    // Admin Login Functionality
+    const adminLoginModal = document.getElementById('admin-login-modal');
+    const adminDashboard = document.getElementById('admin-dashboard');
+
+    // Show Admin Login Modal
+    document.querySelectorAll('a[href="#admin-login"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        adminLoginModal.classList.remove('hidden');
+      });
+    });
+
+    // Handle Admin Login Form Submission
+    document.getElementById('admin-login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === 'admin' && password === '@fixxer321') {
+        adminLoginModal.classList.add('hidden');
+        adminDashboard.classList.remove('hidden');
+      } else {
+        alert('Invalid username or password.');
+      }
+    });
+
+    // Add Product Functionality
+    const productList = document.getElementById('product-list');
+    document.getElementById('add-product-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const productName = document.getElementById('product-name').value;
+      const productPrice = document.getElementById('product-price').value;
+      const productDescription = document.getElementById('product-description').value;
+      const productImage = document.getElementById('product-image').files[0];
+
+      if (!productName || !productPrice || !productDescription || !productImage) {
+        alert('Please fill all fields and upload an image.');
+        return;
+      }
+
+      const productItem = {
+        name: productName,
+        price: productPrice,
+        description: productDescription,
+        image: URL.createObjectURL(productImage)
+      };
+
+      // Save product to localStorage
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      products.push(productItem);
+      localStorage.setItem('products', JSON.stringify(products));
+
+      // Clear form
+      document.getElementById('add-product-form').reset();
+
+      // Reload products on Home Page
+      loadProducts();
+    });
+
+    // Load Products on Home Page
+    function loadProducts() {
+      const products = JSON.parse(localStorage.getItem('products')) || [];
+      const productListHome = document.getElementById('product-list-home');
+
+      productListHome.innerHTML = ''; // Clear existing products
+
+      products.forEach(product => {
+        const productItem = document.createElement('div');
+        productItem.className = 'neumorphism p-4';
+        productItem.innerHTML = `
+          <h4 class="text-lg font-bold">${product.name}</h4>
+          <p class="text-sm">Price: Rs ${product.price}</p>
+          <p class="text-sm">${product.description}</p>
+          <img src="${product.image}" alt="${product.name}" class="w-full h-32 object-cover mt-2">
+          <button class="mt-2 px-4 py-2 neumo-button" onclick="addToCart('${product.name}')">Add to Cart</button>
+          <button class="mt-2 px-4 py-2 neumo-button" onclick="orderViaWhatsApp('${product.name}')">Order via WhatsApp</button>
+        `;
+        productListHome.appendChild(productItem);
+      });
+    }
+
+    // Add to Cart Functionality
+    function addToCart(productName) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const product = JSON.parse(localStorage.getItem('products')).find(p => p.name === productName);
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${productName} added to cart!`);
+    }
+
+    // Order via WhatsApp Functionality
+    function orderViaWhatsApp(productName) {
+      const product = JSON.parse(localStorage.getItem('products')).find(p => p.name === productName);
+      const message = `Hi, I want to order ${product.name} (Price: Rs ${product.price}).`;
+      const whatsappUrl = `https://wa.me/923030333698?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    // Load products when the page loads
+    loadProducts();
+
     // Chatbot Functionality
     function sendMessage() {
       const input = document.getElementById('userInput');
@@ -361,6 +551,8 @@
       `;
 
       let answer = "Please contact us via WhatsApp for immediate help!";
+      
+      // English Questions
       if (question.toLowerCase().includes("change wifi password")) {
         answer = `
           To change your Wi-Fi password:
@@ -369,29 +561,35 @@
           3. Go to the Wireless or Security settings.
           4. Change the Wi-Fi password and save the settings.
         `;
-      } else if (question.toLowerCase().includes("change router settings")) {
-        answer = `
-          To change router settings:
-          1. Access the router's admin panel (192.168.1.1 or 192.168.0.1).
-          2. Log in with your admin credentials.
-          3. Navigate to the desired settings (e.g., Wireless, Security, etc.).
-          4. Make the necessary changes and save.
-        `;
-      } else if (question.toLowerCase().includes("add user id password on huawei router")) {
-        answer = `
-          To add a user ID/password on a Huawei router:
-          1. Access the router's admin panel (192.168.1.1 or 192.168.0.1).
-          2. Log in with your admin credentials.
-          3. Go to the User Management or Security settings.
-          4. Add a new user ID and password, then save.
-        `;
       } else if (question.toLowerCase().includes("choose plan for gaming")) {
         answer = `
           For gaming, we recommend the **Premium Plan (25Mbps)** or higher for low latency and smooth gameplay.
         `;
-      } else if (question.toLowerCase().includes("choose plan for social media")) {
+      }
+
+      // Roman Urdu Questions
+      else if (question.toLowerCase().includes("wifi password kaise change karen")) {
         answer = `
-          For social media browsing, the **Basic Plan (7Mbps)** or **Standard Plan (17Mbps)** is sufficient.
+          Wi-Fi password change karne ke liye:
+          1. Apne router ke admin panel mein jayein (usually 192.168.1.1 ya 192.168.0.1).
+          2. Apne admin credentials se log in karein.
+          3. Wireless ya Security settings mein jayein.
+          4. Wi-Fi password change karein aur settings save karein.
+        `;
+      } else if (question.toLowerCase().includes("gaming ke liye konsa plan choose karen")) {
+        answer = `
+          Gaming ke liye, hum **Premium Plan (25Mbps)** ya isse upar ka plan recommend karte hain taake low latency aur smooth gameplay ho.
+        `;
+      }
+
+      // Urdu Questions (if needed)
+      else if (question.includes("وائی فائی پاس ورڈ کیسے تبدیل کریں")) {
+        answer = `
+          وائی فائی پاس ورڈ تبدیل کرنے کے لیے:
+          1. اپنے روٹر کے ایڈمن پینل میں جائیں (عام طور پر 192.168.1.1 یا 192.168.0.1)۔
+          2. اپنے ایڈمن کریڈنشلز سے لاگ ان کریں۔
+          3. وائرلیس یا سیکیورٹی سیٹنگز میں جائیں۔
+          4. وائی فائی پاس ورڈ تبدیل کریں اور سیٹنگز محفوظ کریں۔
         `;
       }
 
