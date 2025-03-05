@@ -78,6 +78,36 @@
     .animate-slideIn {
       animation: slideIn 0.5s ease-out;
     }
+    /* Swipe Up Animation */
+    @keyframes swipeUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-swipeUp {
+      animation: swipeUp 0.5s ease-out;
+    }
+    /* Image Slider */
+    .image-slider {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 200px;
+    }
+    .image-slider img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s ease;
+    }
+    .image-slider img.active {
+      opacity: 1;
+    }
+    .image-slider img:not(.active) {
+      opacity: 0;
+    }
   </style>
 </head>
 <body class="relative">
@@ -102,6 +132,7 @@
       <a href="#services" class="block hover:text-[var(--secondary-color)]">Services</a>
       <a href="#packages" class="block hover:text-[var(--secondary-color)]">Packages</a>
       <a href="#about" class="block hover:text-[var(--secondary-color)]">About Us</a>
+      <a href="#products" class="block hover:text-[var(--secondary-color)]">Products</a> <!-- New Products Link -->
       <!-- Admin Login Option -->
       <a href="#admin-login" class="block hover:text-[var(--secondary-color)]">Admin Login</a>
     </div>
@@ -118,6 +149,7 @@
       <a href="#services" class="hover:text-[var(--secondary-color)]">Services</a>
       <a href="#packages" class="hover:text-[var(--secondary-color)]">Packages</a>
       <a href="#about" class="hover:text-[var(--secondary-color)]">About Us</a>
+      <a href="#products" class="hover:text-[var(--secondary-color)]">Products</a> <!-- New Products Link -->
       <!-- Admin Login Option -->
       <a href="#admin-login" class="hover:text-[var(--secondary-color)]">Admin Login</a>
       <!-- Theme Toggle Button -->
@@ -131,6 +163,7 @@
   <div id="admin-login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
     <div class="neumorphism p-6 w-96">
       <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Admin Login</h2>
+      <button id="close-admin-modal" class="absolute top-2 right-2 text-xl">&times;</button>
       <form id="admin-login-form">
         <div class="mb-4">
           <label for="username" class="block text-sm font-medium mb-2">Username</label>
@@ -168,8 +201,8 @@
               <textarea id="product-description" class="w-full p-2 border rounded-lg" required></textarea>
             </div>
             <div class="mb-4">
-              <label for="product-image" class="block text-sm font-medium mb-2">Product Image</label>
-              <input type="file" id="product-image" class="w-full p-2 border rounded-lg" accept="image/*">
+              <label for="product-images" class="block text-sm font-medium mb-2">Product Images (Max 4)</label>
+              <input type="file" id="product-images" class="w-full p-2 border rounded-lg" accept="image/*" multiple required>
             </div>
             <button type="submit" class="w-full px-4 py-2 neumo-button" style="background: var(--primary-color); color: white;">Add Product</button>
           </form>
@@ -190,16 +223,6 @@
     <h1 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--secondary-color);">High-Speed Internet Services</h1>
     <p class="text-lg md:text-xl">Dedicated & Residential Solutions</p>
   </header>
-
-  <!-- Home Page Products Section -->
-  <section id="home-products" class="container mx-auto px-4 py-12">
-    <div class="neumorphism p-6 text-center animate-slideIn">
-      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Our Products</h2>
-      <div id="product-list-home" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Products will be dynamically added here -->
-      </div>
-    </div>
-  </section>
 
   <!-- Services Section -->
   <section id="services" class="container mx-auto px-4 py-12">
@@ -386,6 +409,16 @@
     </div>
   </section>
 
+  <!-- Products Section (Moved Below FAQs) -->
+  <section id="products" class="container mx-auto px-4 py-12">
+    <div class="neumorphism p-6 text-center animate-slideIn">
+      <h2 class="text-2xl font-bold mb-4" style="color: var(--primary-color);">Our Products</h2>
+      <div id="product-list-home" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Products will be dynamically added here -->
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="text-center py-2 neumorphism mt-5">
     <p class="text-sm">Copyright © 2025 | All rights reserved Dhabejinet</p>
@@ -450,6 +483,11 @@
       });
     });
 
+    // Close Admin Login Modal
+    document.getElementById('close-admin-modal').addEventListener('click', () => {
+      adminLoginModal.classList.add('hidden');
+    });
+
     // Handle Admin Login Form Submission
     document.getElementById('admin-login-form').addEventListener('submit', (e) => {
       e.preventDefault();
@@ -471,55 +509,116 @@
       const productName = document.getElementById('product-name').value;
       const productPrice = document.getElementById('product-price').value;
       const productDescription = document.getElementById('product-description').value;
-      const productImage = document.getElementById('product-image').files[0];
+      const productImages = document.getElementById('product-images').files;
 
-      if (!productName || !productPrice || !productDescription || !productImage) {
-        alert('Please fill all fields and upload an image.');
+      if (!productName || !productPrice || !productDescription || !productImages || productImages.length > 4) {
+        alert('Please fill all fields and upload up to 4 images.');
         return;
       }
 
-      const productItem = {
-        name: productName,
-        price: productPrice,
-        description: productDescription,
-        image: URL.createObjectURL(productImage)
-      };
+      const imagePromises = Array.from(productImages).map(file => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            resolve(event.target.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
 
-      // Save product to localStorage
-      let products = JSON.parse(localStorage.getItem('products')) || [];
-      products.push(productItem);
-      localStorage.setItem('products', JSON.stringify(products));
+      Promise.all(imagePromises).then(images => {
+        const productItem = {
+          name: productName,
+          price: productPrice,
+          description: productDescription,
+          images: images // Store images as base64
+        };
 
-      // Clear form
-      document.getElementById('add-product-form').reset();
+        // Save product to localStorage
+        let products = JSON.parse(localStorage.getItem('products')) || [];
+        products.push(productItem);
+        localStorage.setItem('products', JSON.stringify(products));
 
-      // Reload products on Home Page
-      loadProducts();
+        // Clear form
+        document.getElementById('add-product-form').reset();
+
+        // Reload products on Home Page
+        loadProducts();
+      });
     });
 
     // Load Products on Home Page
     function loadProducts() {
       const products = JSON.parse(localStorage.getItem('products')) || [];
       const productListHome = document.getElementById('product-list-home');
+      const productListAdmin = document.getElementById('product-list');
 
       productListHome.innerHTML = ''; // Clear existing products
+      productListAdmin.innerHTML = ''; // Clear existing products
 
-      products.forEach(product => {
-        const productItem = document.createElement('div');
-        productItem.className = 'neumorphism p-4';
-        productItem.innerHTML = `
+      products.forEach((product, index) => {
+        // For Visitors/Customers
+        const productItemHome = document.createElement('div');
+        productItemHome.className = 'neumorphism p-4';
+        productItemHome.innerHTML = `
           <h4 class="text-lg font-bold">${product.name}</h4>
           <p class="text-sm">Price: Rs ${product.price}</p>
           <p class="text-sm">${product.description}</p>
-          <img src="${product.image}" alt="${product.name}" class="w-full h-32 object-cover mt-2">
+          <div class="image-slider">
+            ${product.images.map((img, i) => `
+              <img src="${img}" alt="${product.name}" class="${i === 0 ? 'active' : ''}">
+            `).join('')}
+          </div>
           <button class="mt-2 px-4 py-2 neumo-button" onclick="addToCart('${product.name}')">Add to Cart</button>
-          <button class="mt-2 px-4 py-2 neumo-button" onclick="orderViaWhatsApp('${product.name}')">Order via WhatsApp</button>
+          <button class="mt-2 px-4 py-2 neumo-button bg-green-500 text-white" onclick="orderViaWhatsApp('${product.name}')">Order via WhatsApp</button>
         `;
-        productListHome.appendChild(productItem);
+        productListHome.appendChild(productItemHome);
+
+        // For Admin
+        const productItemAdmin = document.createElement('div');
+        productItemAdmin.className = 'neumorphism p-4';
+        productItemAdmin.innerHTML = `
+          <h4 class="text-lg font-bold">${product.name}</h4>
+          <p class="text-sm">Price: Rs ${product.price}</p>
+          <p class="text-sm">${product.description}</p>
+          <div class="image-slider">
+            ${product.images.map((img, i) => `
+              <img src="${img}" alt="${product.name}" class="${i === 0 ? 'active' : ''}">
+            `).join('')}
+          </div>
+          <button class="mt-2 px-4 py-2 neumo-button bg-red-500 text-white" onclick="deleteProduct(${index})">Delete</button>
+        `;
+        productListAdmin.appendChild(productItemAdmin);
+      });
+
+      // Initialize Image Slider
+      initializeImageSliders();
+    }
+
+    // Initialize Image Sliders
+    function initializeImageSliders() {
+      const sliders = document.querySelectorAll('.image-slider');
+      sliders.forEach(slider => {
+        const images = slider.querySelectorAll('img');
+        let currentIndex = 0;
+
+        setInterval(() => {
+          images[currentIndex].classList.remove('active');
+          currentIndex = (currentIndex + 1) % images.length;
+          images[currentIndex].classList.add('active');
+        }, 3000); // Change image every 3 seconds
       });
     }
 
-    // Add to Cart Functionality
+    // Delete Product Functionality (Only for Admin)
+    function deleteProduct(index) {
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      products.splice(index, 1); // Remove product at index
+      localStorage.setItem('products', JSON.stringify(products));
+      loadProducts(); // Reload products
+    }
+
+    // Add to Cart Functionality (For Visitors/Customers)
     function addToCart(productName) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
       const product = JSON.parse(localStorage.getItem('products')).find(p => p.name === productName);
@@ -528,7 +627,7 @@
       alert(`${productName} added to cart!`);
     }
 
-    // Order via WhatsApp Functionality
+    // Order via WhatsApp Functionality (For Visitors/Customers)
     function orderViaWhatsApp(productName) {
       const product = JSON.parse(localStorage.getItem('products')).find(p => p.name === productName);
       const message = `Hi, I want to order ${product.name} (Price: Rs ${product.price}).`;
@@ -620,6 +719,20 @@
         chatbox.classList.remove('chat-visible');
         chatbox.classList.add('chat-hidden');
       }
+    });
+
+    // Swipe Up Animation
+    const sections = document.querySelectorAll('section, header');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-swipeUp');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => {
+      observer.observe(section);
     });
   </script>
 </body>
